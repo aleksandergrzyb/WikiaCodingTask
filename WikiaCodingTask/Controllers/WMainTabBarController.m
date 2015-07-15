@@ -28,8 +28,7 @@
     sliderDemoVC.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:1];
     UINavigationController *sliderDemoNC = [[UINavigationController alloc] initWithRootViewController:sliderDemoVC];
     
-    NSArray *viewControllers = @[popularWikisNC, sliderDemoNC];
-    self.viewControllers = viewControllers;
+    self.viewControllers = @[popularWikisNC, sliderDemoNC];
 }
 
 @end
