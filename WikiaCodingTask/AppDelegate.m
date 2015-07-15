@@ -15,7 +15,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     WMainTabBarController *mainTabBarController = [[WMainTabBarController alloc] init];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:mainTabBarController];
+    self.window.rootViewController = mainTabBarController;
     [self.window makeKeyAndVisible];
     return YES;
 }

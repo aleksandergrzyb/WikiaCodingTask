@@ -22,11 +22,13 @@
 {
     WPopularWikisTableViewController *popularWikisTVC = [[WPopularWikisTableViewController alloc] init];
     popularWikisTVC.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag:0];
+    UINavigationController *popularWikisNC = [[UINavigationController alloc] initWithRootViewController:popularWikisTVC];
     
     WSliderDemoViewController *sliderDemoVC = [[WSliderDemoViewController alloc] init];
     sliderDemoVC.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:1];
+    UINavigationController *sliderDemoNC = [[UINavigationController alloc] initWithRootViewController:sliderDemoVC];
     
-    NSArray *viewControllers = @[popularWikisTVC, sliderDemoVC];
+    NSArray *viewControllers = @[popularWikisNC, sliderDemoNC];
     self.viewControllers = viewControllers;
 }
 
