@@ -13,6 +13,9 @@
 		59839D751B5662B70070EA1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59839D741B5662B70070EA1A /* Images.xcassets */; };
 		59839D781B5662B70070EA1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59839D761B5662B70070EA1A /* LaunchScreen.xib */; };
 		59839D841B5662B70070EA1A /* WikiaCodingTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D831B5662B70070EA1A /* WikiaCodingTaskTests.m */; };
+		59839D981B566AC10070EA1A /* WMainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D971B566AC10070EA1A /* WMainTabBarController.m */; };
+		59839D9B1B566B0E0070EA1A /* WPopularWikisTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D9A1B566B0E0070EA1A /* WPopularWikisTableViewController.m */; };
+		59839DA11B566C320070EA1A /* WSliderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA01B566C320070EA1A /* WSliderDemoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,12 @@
 		59839D821B5662B70070EA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59839D831B5662B70070EA1A /* WikiaCodingTaskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WikiaCodingTaskTests.m; sourceTree = "<group>"; };
 		59839D921B5665DB0070EA1A /* Constans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constans.h; sourceTree = "<group>"; };
+		59839D961B566AC10070EA1A /* WMainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMainTabBarController.h; sourceTree = "<group>"; };
+		59839D971B566AC10070EA1A /* WMainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMainTabBarController.m; sourceTree = "<group>"; };
+		59839D991B566B0E0070EA1A /* WPopularWikisTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPopularWikisTableViewController.h; sourceTree = "<group>"; };
+		59839D9A1B566B0E0070EA1A /* WPopularWikisTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPopularWikisTableViewController.m; sourceTree = "<group>"; };
+		59839D9F1B566C320070EA1A /* WSliderDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSliderDemoViewController.h; sourceTree = "<group>"; };
+		59839DA01B566C320070EA1A /* WSliderDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSliderDemoViewController.m; sourceTree = "<group>"; };
 		C19A4686B4CAFC3394237C7D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D459EC55045FA452CF2CD0D2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +151,12 @@
 		59839D8F1B5663AC0070EA1A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				59839D961B566AC10070EA1A /* WMainTabBarController.h */,
+				59839D971B566AC10070EA1A /* WMainTabBarController.m */,
+				59839D991B566B0E0070EA1A /* WPopularWikisTableViewController.h */,
+				59839D9A1B566B0E0070EA1A /* WPopularWikisTableViewController.m */,
+				59839D9F1B566C320070EA1A /* WSliderDemoViewController.h */,
+				59839DA01B566C320070EA1A /* WSliderDemoViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -311,6 +326,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59839DA11B566C320070EA1A /* WSliderDemoViewController.m in Sources */,
+				59839D981B566AC10070EA1A /* WMainTabBarController.m in Sources */,
+				59839D9B1B566B0E0070EA1A /* WPopularWikisTableViewController.m in Sources */,
 				59839D6D1B5662B70070EA1A /* AppDelegate.m in Sources */,
 				59839D6A1B5662B70070EA1A /* main.m in Sources */,
 			);
