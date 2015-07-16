@@ -45,7 +45,7 @@ static CGFloat const WNameLabelFontSize = 14.0f;
     return self;
 }
 
-#pragma mark - Autolayout
+#pragma mark - Auto Layout
 
 - (void)layoutSubviews
 {
