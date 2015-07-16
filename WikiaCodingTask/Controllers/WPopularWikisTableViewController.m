@@ -87,11 +87,23 @@ static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
     return cell;
 }
 
+#pragma mark - Table View Delegate
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == self.wikis.count - 1) {
+        if ([WAPIClient sharedAPIClient].currentBatch <= [WAPIClient sharedAPIClient].numberOfBatches) {
+            [self fetchWikis];
+        }
+    }
+}
+
 #pragma mark - Actions
 
 - (void)refreshData
 {
     [self.wikis removeAllObjects];
+    [[WAPIClient sharedAPIClient] resetBatches];
     [self fetchWikis];
 }
 

@@ -14,5 +14,9 @@
 
 + (WAPIClient *)sharedAPIClient;
 - (RACSignal *)fetchMostPopularWikis;
+- (void)resetBatches;
+
+@property (strong, nonatomic, readonly) NSNumber *numberOfBatches;
+@property (strong, nonatomic, readonly) NSNumber *currentBatch;
 
 @end

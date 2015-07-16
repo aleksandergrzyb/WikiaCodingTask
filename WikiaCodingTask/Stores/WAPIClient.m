@@ -12,6 +12,11 @@
 
 static NSString * const WBaseURL = @"http://www.wikia.com/wikia.php?controller=WikisApi&method=getList";
 
+@interface WAPIClient ()
+@property (strong, nonatomic, readwrite) NSNumber *numberOfBatches;
+@property (strong, nonatomic, readwrite) NSNumber *currentBatch;
+@end
+
 @implementation WAPIClient
 
 + (WAPIClient *)sharedAPIClient
@@ -26,16 +31,23 @@ static NSString * const WBaseURL = @"http://www.wikia.com/wikia.php?controller=W
 
 - (instancetype)initWithBaseURL:(NSURL *)url
 {
-    return [super initWithBaseURL:url];
+    self = [super initWithBaseURL:url];
+    if (self) {
+        self.currentBatch = @(1);
+        self.numberOfBatches = @(1);
+    }
+    return self;
 }
 
 - (RACSignal *)fetchMostPopularWikis
 {
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSDictionary *params = @{ @"expand" : @"yes" };
+        NSDictionary *params = @{ @"expand" : @"yes", @"batch" : [NSString stringWithFormat:@"%d", [self.currentBatch intValue]] };
+        self.currentBatch = [NSNumber numberWithInt:[self.currentBatch intValue] + 1];
         NSURLSessionDataTask *sessionDataTask = [self GET:@"" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
             NSArray *results = responseObject[@"items"];
-            NSArray *wikisObjects = [MTLJSONAdapter modelsOfClass:[WWiki class] fromJSONArray:results error:nil]; 
+            self.numberOfBatches = responseObject[@"batches"];
+            NSArray *wikisObjects = [MTLJSONAdapter modelsOfClass:[WWiki class] fromJSONArray:results error:nil];
             [subscriber sendNext:wikisObjects];
             [subscriber sendCompleted];
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -45,6 +57,11 @@ static NSString * const WBaseURL = @"http://www.wikia.com/wikia.php?controller=W
             [sessionDataTask cancel];
         }];
     }] replayLazily];
+}
+
+- (void)resetBatches
+{
+    self.currentBatch = @(1);
 }
 
 @end
