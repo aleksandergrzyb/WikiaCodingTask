@@ -25,6 +25,7 @@ static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
 {
     [super viewDidLoad];
     self.navigationItem.title = @"Most Popular Wikis";
+    self.tableView.allowsSelection = NO;
     [self fetchWikis];
     [self addRefreshControl];
 }
