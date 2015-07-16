@@ -43,7 +43,6 @@
 		59839D7D1B5662B70070EA1A /* WikiaCodingTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WikiaCodingTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59839D821B5662B70070EA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59839D831B5662B70070EA1A /* WikiaCodingTaskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WikiaCodingTaskTests.m; sourceTree = "<group>"; };
-		59839D921B5665DB0070EA1A /* Constans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constans.h; sourceTree = "<group>"; };
 		59839D961B566AC10070EA1A /* WMainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMainTabBarController.h; sourceTree = "<group>"; };
 		59839D971B566AC10070EA1A /* WMainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMainTabBarController.m; sourceTree = "<group>"; };
 		59839D991B566B0E0070EA1A /* WPopularWikisTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPopularWikisTableViewController.h; sourceTree = "<group>"; };
@@ -102,13 +101,13 @@
 		59839D661B5662B70070EA1A /* WikiaCodingTask */ = {
 			isa = PBXGroup;
 			children = (
+				59839D6B1B5662B70070EA1A /* AppDelegate.h */,
+				59839D6C1B5662B70070EA1A /* AppDelegate.m */,
 				59839D911B5663D00070EA1A /* Helpers */,
 				59839D901B5663C00070EA1A /* Stores */,
 				59839D8F1B5663AC0070EA1A /* Controllers */,
 				59839D8E1B5663990070EA1A /* Views */,
 				59839D8D1B56636C0070EA1A /* Models */,
-				59839D6B1B5662B70070EA1A /* AppDelegate.h */,
-				59839D6C1B5662B70070EA1A /* AppDelegate.m */,
 				59839D671B5662B70070EA1A /* Supporting Files */,
 			);
 			path = WikiaCodingTask;
@@ -121,7 +120,6 @@
 				59839D741B5662B70070EA1A /* Images.xcassets */,
 				59839D681B5662B70070EA1A /* Info.plist */,
 				59839D691B5662B70070EA1A /* main.m */,
-				59839D921B5665DB0070EA1A /* Constans.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
