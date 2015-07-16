@@ -14,5 +14,6 @@
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *domain;
 @property (copy, nonatomic) NSNumber *identifier;
+@property (copy, nonatomic) NSURL *imageURL;
 
 @end

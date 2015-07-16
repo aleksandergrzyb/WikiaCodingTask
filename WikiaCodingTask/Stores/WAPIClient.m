@@ -8,9 +8,9 @@
 
 #import "WAPIClient.h"
 #import "Mantle.h"
-#import "WWiki.h"
+#import "SDWebImageManager.h"
 
-static NSString * const WBaseURL = @"http://www.wikia.com/wikia.php?controller=WikisApi";
+static NSString * const WBaseURL = @"http://www.wikia.com/wikia.php?controller=WikisApi&method=getList";
 
 @implementation WAPIClient
 
@@ -26,20 +26,16 @@ static NSString * const WBaseURL = @"http://www.wikia.com/wikia.php?controller=W
 
 - (instancetype)initWithBaseURL:(NSURL *)url
 {
-    self = [super initWithBaseURL:url];
-    if (self) {
-        
-    }
-    return self;
+    return [super initWithBaseURL:url];
 }
 
 - (RACSignal *)fetchMostPopularWikis
 {
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSDictionary *params = @{ @"method" : @"getList" };
+        NSDictionary *params = @{ @"expand" : @"yes" };
         NSURLSessionDataTask *sessionDataTask = [self GET:@"" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
             NSArray *results = responseObject[@"items"];
-            NSArray *wikisObjects = [MTLJSONAdapter modelsOfClass:[WWiki class] fromJSONArray:results error:nil];
+            NSArray *wikisObjects = [MTLJSONAdapter modelsOfClass:[WWiki class] fromJSONArray:results error:nil]; 
             [subscriber sendNext:wikisObjects];
             [subscriber sendCompleted];
         } failure:^(NSURLSessionDataTask *task, NSError *error) {

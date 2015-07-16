@@ -7,6 +7,7 @@
 //
 
 #import "WWiki.h"
+#import "MTLValueTransformer.h"
 
 @implementation WWiki
 
@@ -15,8 +16,16 @@
     return @{
              @"name" : @"name",
              @"domain" : @"domain",
-             @"identifier" : @"id"
+             @"identifier" : @"id",
+             @"imageURL" : @"wordmark"
     };
+}
+
++ (NSValueTransformer *)imageURLJSONTransformer
+{
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *value, BOOL *success, NSError *__autoreleasing *error) {
+        return [NSURL URLWithString:value];
+    }];
 }
 
 @end

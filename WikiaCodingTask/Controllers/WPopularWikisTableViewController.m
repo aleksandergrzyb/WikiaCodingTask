@@ -9,12 +9,15 @@
 #import "WPopularWikisTableViewController.h"
 #import "WAPIClient.h"
 #import "WWiki.h"
+#import "UIImageView+WebCache.h"
+#import "WPopularWikiCell.h"
 
 @interface WPopularWikisTableViewController ()
 @property (strong, nonatomic) NSMutableArray *wikis;
 @end
 
 static NSString * const WMostPopularWikisCellIdentifier = @"MostPopularWikisCell";
+static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
 
 @implementation WPopularWikisTableViewController
 
@@ -36,7 +39,15 @@ static NSString * const WMostPopularWikisCellIdentifier = @"MostPopularWikisCell
     return _wikis;
 }
 
-#pragma mark - Setting Up Data & Objects
+#pragma mark - Setting Up UI
+
+- (void)addRefreshControl
+{
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+}
+
+#pragma mark - Networking
 
 - (void)fetchWikis
 {
@@ -44,14 +55,15 @@ static NSString * const WMostPopularWikisCellIdentifier = @"MostPopularWikisCell
         [self.wikis addObjectsFromArray:(NSArray *)mostPopularWikis];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
+    } error:^(NSError *error) {
+        NSLog(@"Error when fetching: %@", [error localizedDescription]);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [self.refreshControl endRefreshing];
+        [alertView show];
     }];
 }
 
-- (void)addRefreshControl
-{
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
-}
+
 
 #pragma mark - Table View Data Source
 
@@ -62,14 +74,15 @@ static NSString * const WMostPopularWikisCellIdentifier = @"MostPopularWikisCell
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:WMostPopularWikisCellIdentifier];
+    WPopularWikiCell *cell = [tableView dequeueReusableCellWithIdentifier:WMostPopularWikisCellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:WMostPopularWikisCellIdentifier];
+        cell = [[WPopularWikiCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:WMostPopularWikisCellIdentifier];
     }
     if (indexPath.row < self.wikis.count) {
         WWiki *wiki = self.wikis[indexPath.row];
-        cell.textLabel.text = wiki.name;
-        cell.detailTextLabel.text = wiki.domain;
+        cell.name = wiki.name;
+        cell.domain = wiki.domain;
+        [cell.thumbnail sd_setImageWithURL:wiki.imageURL placeholderImage:[UIImage imageNamed:@"placeholder"]];
     }
     return cell;
 }

@@ -18,6 +18,7 @@
 		59839DA11B566C320070EA1A /* WSliderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA01B566C320070EA1A /* WSliderDemoViewController.m */; };
 		59839DA41B5673880070EA1A /* WAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA31B5673880070EA1A /* WAPIClient.m */; };
 		59839DA71B5675D30070EA1A /* WWiki.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA61B5675D30070EA1A /* WWiki.m */; };
+		59839DAA1B57A8120070EA1A /* WPopularWikiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA91B57A8120070EA1A /* WPopularWikiCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		59839DA31B5673880070EA1A /* WAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAPIClient.m; sourceTree = "<group>"; };
 		59839DA51B5675D30070EA1A /* WWiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWiki.h; sourceTree = "<group>"; };
 		59839DA61B5675D30070EA1A /* WWiki.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWiki.m; sourceTree = "<group>"; };
+		59839DA81B57A8120070EA1A /* WPopularWikiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPopularWikiCell.h; sourceTree = "<group>"; };
+		59839DA91B57A8120070EA1A /* WPopularWikiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPopularWikiCell.m; sourceTree = "<group>"; };
 		C19A4686B4CAFC3394237C7D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D459EC55045FA452CF2CD0D2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,6 +155,8 @@
 		59839D8E1B5663990070EA1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				59839DA81B57A8120070EA1A /* WPopularWikiCell.h */,
+				59839DA91B57A8120070EA1A /* WPopularWikiCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,6 +344,7 @@
 				59839DA11B566C320070EA1A /* WSliderDemoViewController.m in Sources */,
 				59839D981B566AC10070EA1A /* WMainTabBarController.m in Sources */,
 				59839D9B1B566B0E0070EA1A /* WPopularWikisTableViewController.m in Sources */,
+				59839DAA1B57A8120070EA1A /* WPopularWikiCell.m in Sources */,
 				59839DA41B5673880070EA1A /* WAPIClient.m in Sources */,
 				59839DA71B5675D30070EA1A /* WWiki.m in Sources */,
 				59839D6D1B5662B70070EA1A /* AppDelegate.m in Sources */,

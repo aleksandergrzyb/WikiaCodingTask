@@ -8,6 +8,7 @@
 
 #import "AFHTTPSessionManager.h"
 #import "ReactiveCocoa.h"
+#import "WWiki.h"
 
 @interface WAPIClient : AFHTTPSessionManager
 
