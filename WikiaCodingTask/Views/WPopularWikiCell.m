@@ -10,7 +10,7 @@
 #import "Masonry.h"
 
 static CGFloat const WDomainLabelFontSize = 12.0f;
-static CGFloat const WNameLabelFontSize = 15.0f;
+static CGFloat const WNameLabelFontSize = 14.0f;
 
 @interface WPopularWikiCell ()
 @property (weak, nonatomic) UILabel *nameLabel;
@@ -51,7 +51,7 @@ static CGFloat const WNameLabelFontSize = 15.0f;
 {
     [super layoutSubviews];
     
-    UIEdgeInsets padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    UIEdgeInsets padding = UIEdgeInsetsMake(4, 8, 4, 8);
     
     [self.thumbnail mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).with.offset(padding.top);
