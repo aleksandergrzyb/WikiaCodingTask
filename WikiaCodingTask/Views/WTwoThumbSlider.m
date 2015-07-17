@@ -235,7 +235,7 @@ static int const WSliderHandleTouchArea = 30;
             self.wasLeftTouchInside = YES;
         }
     }
-    
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
     return YES;
 }
 
