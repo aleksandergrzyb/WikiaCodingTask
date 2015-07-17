@@ -209,13 +209,13 @@ static int const WSliderHandleTouchArea = 30;
             self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
         }
         
-        BOOL isRightHandleBeforeLeftHandle = CGRectGetMinX(self.rightHandle.frame) >= CGRectGetMaxX(self.leftHandle.frame);
+        BOOL isRightHandleBeforeLeftHandle = CGRectGetMinX(self.rightHandle.frame) >= CGRectGetMaxX(self.leftHandle.frame) + [self pointsFromMinDistance];
         if (isRightHandleBeforeEnd && isTouchInBeforeEnd && isRightHandleBeforeLeftHandle) {
             
             // Checking if delta is not too big (case when handle is getting closer to other handle)
             CGFloat tempPosition = [self xPositionOfRightHandle:self.rightValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
-            if (tempPosition < CGRectGetMaxX(self.leftHandle.frame)) {
-                self.rightValue = self.leftValue;
+            if (tempPosition < CGRectGetMaxX(self.leftHandle.frame) + [self pointsFromMinDistance]) {
+                self.rightValue = self.leftValue + self.minDistance;
             } else {
                 self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
             }
@@ -231,11 +231,11 @@ static int const WSliderHandleTouchArea = 30;
         }
         
         // Checking if delta is not too big (case when handle is getting closer to other handle)
-        BOOL isLeftHandleBeforeRightHandle = CGRectGetMinX(self.rightHandle.frame) >= CGRectGetMaxX(self.leftHandle.frame);
+        BOOL isLeftHandleBeforeRightHandle = CGRectGetMinX(self.rightHandle.frame) >= CGRectGetMaxX(self.leftHandle.frame) + [self pointsFromMinDistance];
         if (isLeftHandleBeforeEnd && isTouchInBeforeEnd && isLeftHandleBeforeRightHandle) {
             CGFloat tempPosition = [self xPositionOfLeftHandle:self.leftValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
-            if (tempPosition > CGRectGetMinX(self.rightHandle.frame)) {
-                self.leftValue = self.rightValue;
+            if (tempPosition + [self pointsFromMinDistance] + WSliderSize > CGRectGetMinX(self.rightHandle.frame) ) {
+                self.leftValue = self.rightValue - self.minDistance;
             } else {
                 self.leftValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
             }
@@ -256,6 +256,11 @@ static int const WSliderHandleTouchArea = 30;
 }
 
 #pragma mark - Helpers
+
+- (CGFloat)pointsFromMinDistance
+{
+    return self.minDistance * (self.sliderUsedLine.frame.size.width - 2 * WSliderSize);
+}
 
 - (CGFloat)xPositionOfRightHandle:(CGFloat)value
 {

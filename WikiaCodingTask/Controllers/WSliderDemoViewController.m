@@ -113,7 +113,7 @@ static int const WSliderWidth = 300;
 - (void)minimumDistanceValueChanged:(UISlider *)sender
 {
     self.minimumDistanceLabel.text = [NSString stringWithFormat:@"Minimum distance value: %f", sender.value];
-    self.twoThumbSlider.minDistance = sender.value;
+//    self.twoThumbSlider.minDistance = sender.value;
 }
 
 #pragma mark - Helpers
