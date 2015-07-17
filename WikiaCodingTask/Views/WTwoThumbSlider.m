@@ -22,23 +22,23 @@ static CGFloat const WSliderLineXCor = 0.0f;
 static CGFloat const WSliderLineYCor = WSliderSize * 0.5 - 1;
 static CGFloat const WSliderLineHeight = 2.0;
 
-// Handle Touch Area
-static int const WSliderHandleTouchArea = 30;
-
 @interface WTwoThumbSlider ()
 
 // Layers of slider
 @property (weak, nonatomic) CALayer *sliderLine;
 @property (weak, nonatomic) CALayer *sliderUsedLine;
-@property (weak, nonatomic) CALayer *rightHandle;
-@property (weak, nonatomic) CALayer *leftHandle;
+
+// Handlers
+@property (weak, nonatomic) UIView *leftHandleView;
+@property (weak, nonatomic) UIView *rightHandleView;
 
 // Helpers for touch handling
 @property (nonatomic) BOOL leftHandleTouched;
 @property (nonatomic) BOOL wasLeftTouchInside;
 @property (nonatomic) BOOL rightHandleTouched;
 @property (nonatomic) BOOL wasRightTouchInside;
-@property (nonatomic) CGPoint previouslyTouchedPoint;
+@property (nonatomic) CGPoint previouslyTouchedLeftPoint;
+@property (nonatomic) CGPoint previouslyTouchedRightPoint;
 @end
 
 @implementation WTwoThumbSlider
@@ -70,6 +70,9 @@ static int const WSliderHandleTouchArea = 30;
     self.leftValue = 0;
     self.rightValue = 1;
     
+    // Enabling mulititouch
+    self.multipleTouchEnabled = YES;
+    
     // Adding UI
     CALayer *sliderUsedLine = [CALayer layer];
     self.sliderUsedLine = sliderUsedLine;
@@ -83,25 +86,33 @@ static int const WSliderHandleTouchArea = 30;
     self.sliderLine.backgroundColor = [UIColor colorWithRed:0 green:0.48 blue:1 alpha:1].CGColor;
     [self.layer addSublayer:self.sliderLine];
     
-    CALayer *leftHandle = [CALayer layer];
-    self.leftHandle = leftHandle;
-    self.leftHandle.backgroundColor = [UIColor whiteColor].CGColor;
-    self.leftHandle.cornerRadius = WSliderHandleCornerRadius;
-    self.leftHandle.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
-    self.leftHandle.shadowRadius = WSliderShadowRadius;
-    self.leftHandle.shadowOpacity = WSliderShadowOpacity;
-    self.leftHandle.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
-    [self.layer addSublayer:self.leftHandle];
+    // Adding handles
+    UIView *leftHandleView = [[UIView alloc] init];
+    self.leftHandleView = leftHandleView;
+    self.leftHandleView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    self.leftHandleView.layer.cornerRadius = WSliderHandleCornerRadius;
+    self.leftHandleView.layer.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
+    self.leftHandleView.layer.shadowRadius = WSliderShadowRadius;
+    self.leftHandleView.layer.shadowOpacity = WSliderShadowOpacity;
+    self.leftHandleView.layer.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
+    [self addSubview:self.leftHandleView];
     
-    CALayer *rightHandle = [CALayer layer];
-    self.rightHandle = rightHandle;
-    self.rightHandle.backgroundColor = [UIColor whiteColor].CGColor;
-    self.rightHandle.cornerRadius = WSliderHandleCornerRadius;
-    self.rightHandle.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
-    self.rightHandle.shadowRadius = WSliderShadowRadius;
-    self.rightHandle.shadowOpacity = WSliderShadowOpacity;
-    self.rightHandle.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
-    [self.layer addSublayer:self.rightHandle];
+    UIView *rightHandleView = [[UIView alloc] init];
+    self.rightHandleView = rightHandleView;
+    self.rightHandleView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    self.rightHandleView.layer.cornerRadius = WSliderHandleCornerRadius;
+    self.rightHandleView.layer.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
+    self.rightHandleView.layer.shadowRadius = WSliderShadowRadius;
+    self.rightHandleView.layer.shadowOpacity = WSliderShadowOpacity;
+    self.rightHandleView.layer.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
+    [self addSubview:self.rightHandleView];
+    
+    // Adding gesture recognizers
+    UIPanGestureRecognizer *leftPanRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleLeftPan:)];
+    [self.leftHandleView addGestureRecognizer:leftPanRecognizer];
+    
+    UIPanGestureRecognizer *rightPanRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleRightPan:)];
+    [self.rightHandleView addGestureRecognizer:rightPanRecognizer];
 }
 
 #pragma mark - Layout
@@ -116,16 +127,16 @@ static int const WSliderHandleTouchArea = 30;
     [super layoutSubviews];
     self.sliderLine.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], WSliderLineYCor, [self xPositionOfRightHandle:self.rightValue] - [self xPositionOfLeftHandle:self.leftValue] + WSliderSize, WSliderLineHeight);
     self.sliderUsedLine.frame = CGRectMake(WSliderLineXCor, WSliderLineYCor, self.frame.size.width, WSliderLineHeight);
-    self.leftHandle.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
-    self.rightHandle.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
+    self.leftHandleView.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
+    self.rightHandleView.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
 }
 
 - (void)updatePositions
 {
     [CATransaction begin];
     [CATransaction setDisableActions:YES] ;
-    self.leftHandle.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
-    self.rightHandle.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
+    self.leftHandleView.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
+    self.rightHandleView.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
     self.sliderLine.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], WSliderLineYCor, [self xPositionOfRightHandle:self.rightValue] - [self xPositionOfLeftHandle:self.leftValue] + WSliderSize, WSliderLineHeight);
     [CATransaction commit];
 }
@@ -178,65 +189,17 @@ static int const WSliderHandleTouchArea = 30;
 
 #pragma mark - Gesture Recognizer Delegate
 
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+- (void)handleLeftPan:(UIPanGestureRecognizer *)gesture
 {
-    [super beginTrackingWithTouch:touch withEvent:event];
-    
-    CGPoint touchPoint = [touch locationInView:self];
-    self.previouslyTouchedPoint = touchPoint;
-    
-    // Checking which handle is closer to touch point
-    float distanceFromLeftHandle = [self distanceFromPoint:self.leftHandle.position toPoint:touchPoint];
-    float distanceFromRightHandle = [self distanceFromPoint:self.rightHandle.position toPoint:touchPoint];
-    
-    if (distanceFromRightHandle < distanceFromLeftHandle) {
-        // Checking if user actually touched the handle
-        self.rightHandleTouched = CGRectContainsPoint(CGRectInset(self.rightHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
-    } else {
-        self.leftHandleTouched = CGRectContainsPoint(CGRectInset(self.leftHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
-    }
-    
-    if (self.leftHandleTouched || self.rightHandleTouched) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    [super continueTrackingWithTouch:touch withEvent:event];
-    
-    CGPoint touchPoint = [touch locationInView:self];
-    if (touchPoint.x < self.frame.size.width) {
-    }
-    CGFloat deltaX = touchPoint.x - self.previouslyTouchedPoint.x;
-    self.previouslyTouchedPoint = touchPoint;
-    
-    // Checking which handle was touched
-    if (self.rightHandleTouched) {
-        BOOL isRightHandleBeforeEnd = self.rightHandle.position.x <= CGRectGetMaxX(self.sliderUsedLine.frame);
-        BOOL isTouchInBeforeEnd = touchPoint.x <= CGRectGetMaxX(self.sliderUsedLine.frame);
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        CGPoint touchPoint = [gesture locationInView:self];
+        self.previouslyTouchedLeftPoint = touchPoint;
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        CGPoint touchPoint = [gesture locationInView:self];
+        CGFloat deltaX = touchPoint.x - self.previouslyTouchedLeftPoint.x;
+        self.previouslyTouchedLeftPoint = touchPoint;
         
-        // Finishing right move (when finger is going fast over the frame)
-        if (!isTouchInBeforeEnd && deltaX > 0 && self.wasRightTouchInside) {
-            self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
-        }
-        
-        BOOL isRightHandleBeforeLeftHandle = floor(CGRectGetMinX(self.rightHandle.frame)) >= floor(CGRectGetMaxX(self.leftHandle.frame) + [self pointsFromMinDistance]);
-        if (isRightHandleBeforeEnd && isTouchInBeforeEnd && isRightHandleBeforeLeftHandle) {
-            
-            // Checking if delta is not too big (case when handle is getting closer to other handle)
-            CGFloat tempPosition = [self xPositionOfRightHandle:self.rightValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
-            if (tempPosition < CGRectGetMaxX(self.leftHandle.frame) + [self pointsFromMinDistance]) {
-                self.rightValue = self.leftValue + self.minDistance;
-            } else {
-                self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
-            }
-            self.wasRightTouchInside = YES;
-        }
-    } else {
-        BOOL isLeftHandleBeforeEnd = self.leftHandle.position.x >= CGRectGetMinX(self.sliderUsedLine.frame);
+        BOOL isLeftHandleBeforeEnd = self.leftHandleView.center.x >= CGRectGetMinX(self.sliderUsedLine.frame);
         BOOL isTouchInBeforeEnd = touchPoint.x >= CGRectGetMinX(self.sliderUsedLine.frame);
         
         // Finishing right move (when finger is going fast over the frame)
@@ -245,28 +208,56 @@ static int const WSliderHandleTouchArea = 30;
         }
         
         // Checking if delta is not too big (case when handle is getting closer to other handle)
-        BOOL isLeftHandleBeforeRightHandle = floor(CGRectGetMinX(self.rightHandle.frame)) >= floor(CGRectGetMaxX(self.leftHandle.frame) + [self pointsFromMinDistance]);
+        BOOL isLeftHandleBeforeRightHandle = floor(CGRectGetMinX(self.rightHandleView.frame)) >= floor(CGRectGetMaxX(self.leftHandleView.frame) + [self pointsFromMinDistance]);
         if (isLeftHandleBeforeEnd && isTouchInBeforeEnd && isLeftHandleBeforeRightHandle) {
             CGFloat tempPosition = [self xPositionOfLeftHandle:self.leftValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
-            if (tempPosition + [self pointsFromMinDistance] + WSliderSize > CGRectGetMinX(self.rightHandle.frame)) {
+            if (tempPosition + [self pointsFromMinDistance] + WSliderSize > CGRectGetMinX(self.rightHandleView.frame)) {
                 self.leftValue = self.rightValue - self.minDistance;
             } else {
                 self.leftValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
             }
             self.wasLeftTouchInside = YES;
         }
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
+    } else {
+        self.wasLeftTouchInside = NO;
     }
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
-    return YES;
 }
 
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+- (void)handleRightPan:(UIPanGestureRecognizer *)gesture
 {
-    [super endTrackingWithTouch:touch withEvent:event];
-    self.leftHandleTouched = NO;
-    self.rightHandleTouched = NO;
-    self.wasRightTouchInside = NO;
-    self.wasLeftTouchInside = NO;
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        CGPoint touchPoint = [gesture locationInView:self];
+        self.previouslyTouchedRightPoint = touchPoint;
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        CGPoint touchPoint = [gesture locationInView:self];
+        CGFloat deltaX = touchPoint.x - self.previouslyTouchedRightPoint.x;
+        self.previouslyTouchedRightPoint = touchPoint;
+        
+        BOOL isRightHandleBeforeEnd = self.rightHandleView.center.x <= CGRectGetMaxX(self.sliderUsedLine.frame);
+        BOOL isTouchInBeforeEnd = touchPoint.x <= CGRectGetMaxX(self.sliderUsedLine.frame);
+        
+        // Finishing right move (when finger is going fast over the frame)
+        if (!isTouchInBeforeEnd && deltaX > 0 && self.wasRightTouchInside) {
+            self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
+        }
+        
+        BOOL isRightHandleBeforeLeftHandle = floor(CGRectGetMinX(self.rightHandleView.frame)) >= floor(CGRectGetMaxX(self.leftHandleView.frame) + [self pointsFromMinDistance]);
+        if (isRightHandleBeforeEnd && isTouchInBeforeEnd && isRightHandleBeforeLeftHandle) {
+            
+            // Checking if delta is not too big (case when handle is getting closer to other handle)
+            CGFloat tempPosition = [self xPositionOfRightHandle:self.rightValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
+            if (tempPosition < CGRectGetMaxX(self.leftHandleView.frame) + [self pointsFromMinDistance]) {
+                self.rightValue = self.leftValue + self.minDistance;
+            } else {
+                self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
+            }
+            self.wasRightTouchInside = YES;
+        }
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
+    } else {
+        self.wasRightTouchInside = NO;
+    }
 }
 
 #pragma mark - Helpers

@@ -30,7 +30,7 @@ static int const WSliderWidth = 300;
     [super viewDidLoad];
     self.navigationItem.title = @"Slider Demo";
     self.view.backgroundColor = [UIColor whiteColor];
-
+    
     WTwoThumbSlider *twoThumbSlider = [[WTwoThumbSlider alloc] init];
     self.twoThumbSlider = twoThumbSlider;
     [self.twoThumbSlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
