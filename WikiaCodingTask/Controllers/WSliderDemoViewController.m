@@ -21,7 +21,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"Slider Demo";
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     WTwoThumbSlider *twoThumbSlider = [[WTwoThumbSlider alloc] init];
     self.twoThumbSlider = twoThumbSlider;
     [self.view addSubview:self.twoThumbSlider];

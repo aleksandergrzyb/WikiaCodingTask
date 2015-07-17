@@ -10,19 +10,20 @@
 
 // Handles Size & Position
 static CGFloat const WSliderSize = 28.0f;
-static CGFloat const WSliderCornerRadius = 14.0f;
-static CGFloat const WSliderShadowRadius = 2.0f;
-static CGFloat const WSliderShadowOpacity = 0.5f;
-static CGFloat const WSliderShadowOffsetHight = 2.0f;
+static CGFloat const WSliderHandleCornerRadius = 14.0f;
+static CGFloat const WSliderCornerRadius = 1.0f;
+static CGFloat const WSliderShadowRadius = 3.0f;
+static CGFloat const WSliderShadowOpacity = 5.0f;
+static CGFloat const WSliderShadowOffsetHight = 2.5f;
 static CGFloat const WSliderShadowOffsetWidth = 0.0f;
 
 // Line Size & Position
-static CGFloat const WSliderLineXCor = WSliderSize * 0.5;
+static CGFloat const WSliderLineXCor = 0.0f;
 static CGFloat const WSliderLineYCor = WSliderSize * 0.5 - 1;
 static CGFloat const WSliderLineHeight = 2.0;
 
 // Handle Touch Area
-static int const WSliderHandleTouchArea = 20;
+static int const WSliderHandleTouchArea = 30;
 
 @interface WTwoThumbSlider ()
 
@@ -72,19 +73,21 @@ static int const WSliderHandleTouchArea = 20;
     // Adding UI
     CALayer *sliderUsedLine = [CALayer layer];
     self.sliderUsedLine = sliderUsedLine;
-    self.sliderUsedLine.backgroundColor = [UIColor colorWithRed:0.72 green:0.72 blue:0.72 alpha:1].CGColor;
+    self.sliderUsedLine.cornerRadius = WSliderCornerRadius;
+    self.sliderUsedLine.backgroundColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
     [self.layer addSublayer:self.sliderUsedLine];
     
     CALayer *sliderLine = [CALayer layer];
     self.sliderLine = sliderLine;
-    self.sliderLine.backgroundColor = [UIColor colorWithRed:0.09 green:0.5 blue:0.99 alpha:1].CGColor;
+    self.sliderLine.cornerRadius = WSliderCornerRadius;
+    self.sliderLine.backgroundColor = [UIColor colorWithRed:0 green:0.48 blue:1 alpha:1].CGColor;
     [self.layer addSublayer:self.sliderLine];
     
     CALayer *leftHandle = [CALayer layer];
     self.leftHandle = leftHandle;
     self.leftHandle.backgroundColor = [UIColor whiteColor].CGColor;
-    self.leftHandle.cornerRadius = WSliderCornerRadius;
-    self.leftHandle.shadowColor = [UIColor blackColor].CGColor;
+    self.leftHandle.cornerRadius = WSliderHandleCornerRadius;
+    self.leftHandle.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
     self.leftHandle.shadowRadius = WSliderShadowRadius;
     self.leftHandle.shadowOpacity = WSliderShadowOpacity;
     self.leftHandle.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
@@ -93,8 +96,8 @@ static int const WSliderHandleTouchArea = 20;
     CALayer *rightHandle = [CALayer layer];
     self.rightHandle = rightHandle;
     self.rightHandle.backgroundColor = [UIColor whiteColor].CGColor;
-    self.rightHandle.cornerRadius = WSliderCornerRadius;
-    self.rightHandle.shadowColor = [UIColor blackColor].CGColor;
+    self.rightHandle.cornerRadius = WSliderHandleCornerRadius;
+    self.rightHandle.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
     self.rightHandle.shadowRadius = WSliderShadowRadius;
     self.rightHandle.shadowOpacity = WSliderShadowOpacity;
     self.rightHandle.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
@@ -112,7 +115,7 @@ static int const WSliderHandleTouchArea = 20;
 {
     [super layoutSubviews];
     self.sliderLine.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], WSliderLineYCor, [self xPositionOfRightHandle:self.rightValue] - [self xPositionOfLeftHandle:self.leftValue] + WSliderSize, WSliderLineHeight);
-    self.sliderUsedLine.frame = CGRectMake(WSliderLineXCor, WSliderLineYCor, self.frame.size.width - WSliderSize, WSliderLineHeight);
+    self.sliderUsedLine.frame = CGRectMake(WSliderLineXCor, WSliderLineYCor, self.frame.size.width, WSliderLineHeight);
     self.leftHandle.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
     self.rightHandle.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
 }
@@ -166,6 +169,7 @@ static int const WSliderHandleTouchArea = 20;
     [super beginTrackingWithTouch:touch withEvent:event];
     
     CGPoint touchPoint = [touch locationInView:self];
+    self.previouslyTouchedPoint = touchPoint;
     
     // Checking if user touched left or right handle
     self.leftHandleTouched = CGRectContainsPoint(CGRectInset(self.leftHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
@@ -238,7 +242,6 @@ static int const WSliderHandleTouchArea = 20;
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     [super endTrackingWithTouch:touch withEvent:event];
-    self.previouslyTouchedPoint = CGPointZero;
     self.leftHandleTouched = NO;
     self.rightHandleTouched = NO;
     self.wasRightTouchInside = NO;
@@ -249,12 +252,12 @@ static int const WSliderHandleTouchArea = 20;
 
 - (CGFloat)xPositionOfRightHandle:(CGFloat)value
 {
-    return value * (self.sliderUsedLine.frame.size.width - WSliderSize) + WSliderSize;
+    return value * (self.sliderUsedLine.frame.size.width - 2 * WSliderSize) + WSliderSize;
 }
 
 - (CGFloat)xPositionOfLeftHandle:(CGFloat)value
 {
-    return value * (self.sliderUsedLine.frame.size.width - WSliderSize);
+    return value * (self.sliderUsedLine.frame.size.width - 2 * WSliderSize);
 }
 
 @end
