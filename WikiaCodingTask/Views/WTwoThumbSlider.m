@@ -25,9 +25,14 @@ static CGFloat const WSliderLineHeight = 2.0;
 static int const WSliderHandleTouchArea = 20;
 
 @interface WTwoThumbSlider ()
+
+// Layers of slider
 @property (weak, nonatomic) CALayer *sliderLine;
+@property (weak, nonatomic) CALayer *sliderUsedLine;
 @property (weak, nonatomic) CALayer *rightHandle;
 @property (weak, nonatomic) CALayer *leftHandle;
+
+// Helpers for touch handling
 @property (nonatomic) BOOL leftHandleTouched;
 @property (nonatomic) BOOL wasLeftTouchInside;
 @property (nonatomic) BOOL rightHandleTouched;
@@ -65,6 +70,11 @@ static int const WSliderHandleTouchArea = 20;
     self.rightValue = 1;
     
     // Adding UI
+    CALayer *sliderUsedLine = [CALayer layer];
+    self.sliderUsedLine = sliderUsedLine;
+    self.sliderUsedLine.backgroundColor = [UIColor colorWithRed:0.72 green:0.72 blue:0.72 alpha:1].CGColor;
+    [self.layer addSublayer:self.sliderUsedLine];
+    
     CALayer *sliderLine = [CALayer layer];
     self.sliderLine = sliderLine;
     self.sliderLine.backgroundColor = [UIColor colorWithRed:0.09 green:0.5 blue:0.99 alpha:1].CGColor;
@@ -101,17 +111,19 @@ static int const WSliderHandleTouchArea = 20;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.sliderLine.frame = CGRectMake(WSliderLineXCor, WSliderLineYCor, self.frame.size.width - WSliderSize, WSliderLineHeight);
+    self.sliderLine.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], WSliderLineYCor, [self xPositionOfRightHandle:self.rightValue] - [self xPositionOfLeftHandle:self.leftValue] + WSliderSize, WSliderLineHeight);
+    self.sliderUsedLine.frame = CGRectMake(WSliderLineXCor, WSliderLineYCor, self.frame.size.width - WSliderSize, WSliderLineHeight);
     self.leftHandle.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
     self.rightHandle.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
 }
 
-- (void)updateHandlesPositions
+- (void)updatePositions
 {
     [CATransaction begin];
     [CATransaction setDisableActions:YES] ;
     self.leftHandle.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], 0.0f, WSliderSize, WSliderSize);
     self.rightHandle.frame = CGRectMake([self xPositionOfRightHandle:self.rightValue], 0.0f, WSliderSize, WSliderSize);
+    self.sliderLine.frame = CGRectMake([self xPositionOfLeftHandle:self.leftValue], WSliderLineYCor, [self xPositionOfRightHandle:self.rightValue] - [self xPositionOfLeftHandle:self.leftValue] + WSliderSize, WSliderLineHeight);
     [CATransaction commit];
 }
 
@@ -129,7 +141,7 @@ static int const WSliderHandleTouchArea = 20;
     } else {
         _leftValue = leftValue;
     }
-    [self updateHandlesPositions];
+    [self updatePositions];
 }
 
 - (void)setRightValue:(float)rightValue
@@ -144,7 +156,7 @@ static int const WSliderHandleTouchArea = 20;
     } else {
         _rightValue = rightValue;
     }
-    [self updateHandlesPositions];
+    [self updatePositions];
 }
 
 #pragma mark - Gesture Recognizer Delegate
@@ -178,41 +190,43 @@ static int const WSliderHandleTouchArea = 20;
     
     // Checking which handle was touched
     if (self.rightHandleTouched) {
-        BOOL isRightHandleBeforeEnd = self.rightHandle.position.x <= CGRectGetMaxX(self.sliderLine.frame);
-        BOOL isTouchInBeforeEnd = touchPoint.x <= CGRectGetMaxX(self.sliderLine.frame);
+        BOOL isRightHandleBeforeEnd = self.rightHandle.position.x <= CGRectGetMaxX(self.sliderUsedLine.frame);
+        BOOL isTouchInBeforeEnd = touchPoint.x <= CGRectGetMaxX(self.sliderUsedLine.frame);
         
         // Finishing right move (when finger is going fast over the frame)
         if (!isTouchInBeforeEnd && deltaX > 0 && self.wasRightTouchInside) {
-            self.rightValue += deltaX / (self.sliderLine.frame.size.width - WSliderSize);
+            self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
         }
         
         BOOL isRightHandleBeforeLeftHandle = CGRectGetMinX(self.rightHandle.frame) >= CGRectGetMaxX(self.leftHandle.frame);
         if (isRightHandleBeforeEnd && isTouchInBeforeEnd && isRightHandleBeforeLeftHandle) {
             
-            CGFloat tempPosition = [self xPositionOfRightHandle:self.rightValue + deltaX / (self.sliderLine.frame.size.width - WSliderSize)];
+            // Checking if delta is not too big (case when handle is getting closer to other handle)
+            CGFloat tempPosition = [self xPositionOfRightHandle:self.rightValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
             if (tempPosition < CGRectGetMaxX(self.leftHandle.frame)) {
                 self.rightValue = self.leftValue;
             } else {
-                self.rightValue += deltaX / (self.sliderLine.frame.size.width - WSliderSize);
+                self.rightValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
             }
             self.wasRightTouchInside = YES;
         }
     } else {
-        BOOL isLeftHandleBeforeEnd = self.leftHandle.position.x >= CGRectGetMinX(self.sliderLine.frame);
-        BOOL isTouchInBeforeEnd = touchPoint.x >= CGRectGetMinX(self.sliderLine.frame);
+        BOOL isLeftHandleBeforeEnd = self.leftHandle.position.x >= CGRectGetMinX(self.sliderUsedLine.frame);
+        BOOL isTouchInBeforeEnd = touchPoint.x >= CGRectGetMinX(self.sliderUsedLine.frame);
         
         // Finishing right move (when finger is going fast over the frame)
         if (!isTouchInBeforeEnd && deltaX < 0 && self.wasLeftTouchInside) {
-            self.leftValue += deltaX / (self.sliderLine.frame.size.width - WSliderSize);
+            self.leftValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
         }
         
+        // Checking if delta is not too big (case when handle is getting closer to other handle)
         BOOL isLeftHandleBeforeRightHandle = CGRectGetMinX(self.rightHandle.frame) >= CGRectGetMaxX(self.leftHandle.frame);
         if (isLeftHandleBeforeEnd && isTouchInBeforeEnd && isLeftHandleBeforeRightHandle) {
-            CGFloat tempPosition = [self xPositionOfLeftHandle:self.leftValue + deltaX / (self.sliderLine.frame.size.width - WSliderSize)];
+            CGFloat tempPosition = [self xPositionOfLeftHandle:self.leftValue + deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize)];
             if (tempPosition > CGRectGetMinX(self.rightHandle.frame)) {
                 self.leftValue = self.rightValue;
             } else {
-                self.leftValue += deltaX / (self.sliderLine.frame.size.width - WSliderSize);
+                self.leftValue += deltaX / (self.sliderUsedLine.frame.size.width - WSliderSize);
             }
             self.wasLeftTouchInside = YES;
         }
@@ -224,7 +238,7 @@ static int const WSliderHandleTouchArea = 20;
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     [super endTrackingWithTouch:touch withEvent:event];
-    self.previouslyTouchedPoint = self.rightHandle.position;
+    self.previouslyTouchedPoint = CGPointZero;
     self.leftHandleTouched = NO;
     self.rightHandleTouched = NO;
     self.wasRightTouchInside = NO;
@@ -235,12 +249,12 @@ static int const WSliderHandleTouchArea = 20;
 
 - (CGFloat)xPositionOfRightHandle:(CGFloat)value
 {
-    return value * (self.sliderLine.frame.size.width - WSliderSize) + WSliderSize;
+    return value * (self.sliderUsedLine.frame.size.width - WSliderSize) + WSliderSize;
 }
 
 - (CGFloat)xPositionOfLeftHandle:(CGFloat)value
 {
-    return value * (self.sliderLine.frame.size.width - WSliderSize);
+    return value * (self.sliderUsedLine.frame.size.width - WSliderSize);
 }
 
 @end
