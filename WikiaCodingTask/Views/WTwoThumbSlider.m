@@ -162,6 +162,20 @@ static int const WSliderHandleTouchArea = 30;
     [self updatePositions];
 }
 
+- (void)setMinDistance:(float)minDistance
+{
+    if (_minDistance == minDistance) {
+        return;
+    }
+    if (minDistance < 0) {
+        _minDistance = 0;
+    } else if (minDistance > 1) {
+        _minDistance = 1;
+    } else {
+        _minDistance = minDistance;
+    }
+}
+
 #pragma mark - Gesture Recognizer Delegate
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
