@@ -171,9 +171,16 @@ static int const WSliderHandleTouchArea = 30;
     CGPoint touchPoint = [touch locationInView:self];
     self.previouslyTouchedPoint = touchPoint;
     
-    // Checking if user touched left or right handle
-    self.leftHandleTouched = CGRectContainsPoint(CGRectInset(self.leftHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
-    self.rightHandleTouched = CGRectContainsPoint(CGRectInset(self.rightHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
+    // Checking which handle is closer to touch point
+    float distanceFromLeftHandle = [self distanceFromPoint:self.leftHandle.position toPoint:touchPoint];
+    float distanceFromRightHandle = [self distanceFromPoint:self.rightHandle.position toPoint:touchPoint];
+    
+    if (distanceFromRightHandle < distanceFromLeftHandle) {
+        // Checking if user actually touched the handle
+        self.rightHandleTouched = CGRectContainsPoint(CGRectInset(self.rightHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
+    } else {
+        self.leftHandleTouched = CGRectContainsPoint(CGRectInset(self.leftHandle.frame, -WSliderHandleTouchArea, -WSliderHandleTouchArea), touchPoint);
+    }
     
     if (self.leftHandleTouched || self.rightHandleTouched) {
         return YES;
@@ -258,6 +265,11 @@ static int const WSliderHandleTouchArea = 30;
 - (CGFloat)xPositionOfLeftHandle:(CGFloat)value
 {
     return value * (self.sliderUsedLine.frame.size.width - 2 * WSliderSize);
+}
+
+- (CGFloat)distanceFromPoint:(CGPoint)pointOne toPoint:(CGPoint)pointTwo
+{
+    return sqrtf(powf(pointOne.x - pointTwo.x, 2.0f) + powf(pointOne.y - pointTwo.y, 2.0f));
 }
 
 @end
