@@ -150,8 +150,8 @@ static CGFloat const WSliderLineHeight = 2.0;
     }
     if (leftValue < 0) {
         _leftValue = 0;
-    } else if (leftValue > 1) {
-        _leftValue = 1;
+    } else if (leftValue > self.rightValue - self.minDistance) {
+        _leftValue = self.rightValue - self.minDistance;
     } else {
         _leftValue = leftValue;
     }
@@ -163,10 +163,10 @@ static CGFloat const WSliderLineHeight = 2.0;
     if (_rightValue == rightValue) {
         return;
     }
-    if (rightValue < 0) {
-        _rightValue = 0;
-    } else if (rightValue > 1) {
+    if (rightValue > 1) {
         _rightValue = 1;
+    } else if (rightValue < self.leftValue + self.minDistance) {
+        _rightValue = self.leftValue + self.minDistance;
     } else {
         _rightValue = rightValue;
     }
@@ -185,6 +185,9 @@ static CGFloat const WSliderLineHeight = 2.0;
     } else {
         _minDistance = minDistance;
     }
+    self.leftValue = -1;
+    self.rightValue = 2;
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 #pragma mark - Gesture Recognizer Delegate

@@ -36,6 +36,9 @@ static int const WSliderWidth = 300;
     [self.twoThumbSlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.twoThumbSlider];
     
+    self.twoThumbSlider.minDistance = 0.5;
+    self.twoThumbSlider.leftValue = 0.8;
+    
     UILabel *leftValueLabel = [[UILabel alloc] init];
     self.leftValueLabel = leftValueLabel;
     self.leftValueLabel.textColor = [UIColor blackColor];
