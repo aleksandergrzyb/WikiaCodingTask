@@ -90,6 +90,7 @@ static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
 
 #pragma mark - Table View Delegate
 
+// Downloading more wikis when user gets to the bottom of table view.
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == self.wikis.count - 1) {
@@ -101,6 +102,7 @@ static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
 
 #pragma mark - Actions
 
+// Refreshing removes all downloaded wikis from model and downloads again top25 wikis.
 - (void)refreshData
 {
     [self.wikis removeAllObjects];

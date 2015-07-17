@@ -23,6 +23,8 @@ static CGFloat const WNameLabelFontSize = 14.0f;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
+        // Label that prints the name of wiki.
         UILabel *nameLabel = [[UILabel alloc] init];
         self.nameLabel = nameLabel;
         self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -30,6 +32,7 @@ static CGFloat const WNameLabelFontSize = 14.0f;
         self.nameLabel.textColor = [UIColor blackColor];
         [self addSubview:self.nameLabel];
         
+        // Label that prints the webpage of wiki.
         UILabel *domainLabel = [[UILabel alloc] init];
         self.domainLabel = domainLabel;
         self.domainLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -37,6 +40,7 @@ static CGFloat const WNameLabelFontSize = 14.0f;
         self.domainLabel.textColor = [UIColor blueColor];
         [self addSubview:self.domainLabel];
         
+        // ImageView that holds thumbnail of wiki.
         UIImageView *thumbnail = [[UIImageView alloc] init];
         self.thumbnail = thumbnail;
         self.thumbnail.contentMode = UIViewContentModeScaleAspectFit;

@@ -20,6 +20,7 @@
 
 - (void)addViewControllers
 {
+    // Every controller is inside UINavigation controller to have a nice UINavigationBar with title.
     WPopularWikisTableViewController *popularWikisTVC = [[WPopularWikisTableViewController alloc] init];
     popularWikisTVC.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag:0];
     UINavigationController *popularWikisNC = [[UINavigationController alloc] initWithRootViewController:popularWikisTVC];
