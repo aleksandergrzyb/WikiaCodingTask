@@ -7,15 +7,11 @@
 //
 
 #import "WTwoThumbSlider.h"
+#import "WSliderHandle.h"
 
 // Handles Size & Position
 static CGFloat const WSliderSize = 28.0f;
-static CGFloat const WSliderHandleCornerRadius = 14.0f;
 static CGFloat const WSliderCornerRadius = 1.0f;
-static CGFloat const WSliderShadowRadius = 3.0f;
-static CGFloat const WSliderShadowOpacity = 5.0f;
-static CGFloat const WSliderShadowOffsetHight = 2.5f;
-static CGFloat const WSliderShadowOffsetWidth = 0.0f;
 
 // Line Size & Position
 static CGFloat const WSliderLineXCor = 0.0f;
@@ -29,8 +25,8 @@ static CGFloat const WSliderLineHeight = 2.0;
 @property (weak, nonatomic) CALayer *sliderUsedLine;
 
 // Handlers
-@property (weak, nonatomic) UIView *leftHandleView;
-@property (weak, nonatomic) UIView *rightHandleView;
+@property (weak, nonatomic) WSliderHandle *leftHandleView;
+@property (weak, nonatomic) WSliderHandle *rightHandleView;
 
 // Helpers for touch handling
 @property (nonatomic) BOOL leftHandleTouched;
@@ -87,24 +83,12 @@ static CGFloat const WSliderLineHeight = 2.0;
     [self.layer addSublayer:self.sliderLine];
     
     // Adding handles
-    UIView *leftHandleView = [[UIView alloc] init];
+    WSliderHandle *leftHandleView = [[WSliderHandle alloc] init];
     self.leftHandleView = leftHandleView;
-    self.leftHandleView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    self.leftHandleView.layer.cornerRadius = WSliderHandleCornerRadius;
-    self.leftHandleView.layer.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
-    self.leftHandleView.layer.shadowRadius = WSliderShadowRadius;
-    self.leftHandleView.layer.shadowOpacity = WSliderShadowOpacity;
-    self.leftHandleView.layer.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
     [self addSubview:self.leftHandleView];
     
-    UIView *rightHandleView = [[UIView alloc] init];
+    WSliderHandle *rightHandleView = [[WSliderHandle alloc] init];
     self.rightHandleView = rightHandleView;
-    self.rightHandleView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    self.rightHandleView.layer.cornerRadius = WSliderHandleCornerRadius;
-    self.rightHandleView.layer.shadowColor = [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1].CGColor;
-    self.rightHandleView.layer.shadowRadius = WSliderShadowRadius;
-    self.rightHandleView.layer.shadowOpacity = WSliderShadowOpacity;
-    self.rightHandleView.layer.shadowOffset = CGSizeMake(WSliderShadowOffsetWidth, WSliderShadowOffsetHight);
     [self addSubview:self.rightHandleView];
     
     // Adding gesture recognizers
@@ -261,6 +245,12 @@ static CGFloat const WSliderLineHeight = 2.0;
     } else {
         self.wasRightTouchInside = NO;
     }
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    CGRect area = CGRectInset(self.bounds, -[WSliderHandle touchMargin], -[WSliderHandle touchMargin]);
+    return CGRectContainsPoint(area, point);
 }
 
 #pragma mark - Helpers
