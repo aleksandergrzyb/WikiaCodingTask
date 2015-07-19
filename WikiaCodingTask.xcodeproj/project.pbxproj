@@ -12,7 +12,6 @@
 		59839D6D1B5662B70070EA1A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D6C1B5662B70070EA1A /* AppDelegate.m */; };
 		59839D751B5662B70070EA1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59839D741B5662B70070EA1A /* Images.xcassets */; };
 		59839D781B5662B70070EA1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59839D761B5662B70070EA1A /* LaunchScreen.xib */; };
-		59839D841B5662B70070EA1A /* WikiaCodingTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D831B5662B70070EA1A /* WikiaCodingTaskTests.m */; };
 		59839D981B566AC10070EA1A /* WMainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D971B566AC10070EA1A /* WMainTabBarController.m */; };
 		59839D9B1B566B0E0070EA1A /* WPopularWikisTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839D9A1B566B0E0070EA1A /* WPopularWikisTableViewController.m */; };
 		59839DA11B566C320070EA1A /* WSliderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA01B566C320070EA1A /* WSliderDemoViewController.m */; };
@@ -21,6 +20,8 @@
 		59839DAA1B57A8120070EA1A /* WPopularWikiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DA91B57A8120070EA1A /* WPopularWikiCell.m */; };
 		59839DAD1B57D5490070EA1A /* WTwoThumbSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 59839DAC1B57D5490070EA1A /* WTwoThumbSlider.m */; };
 		59F34C9A1B5BA13800E93941 /* WSliderHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F34C991B5BA13800E93941 /* WSliderHandle.m */; };
+		59F34C9E1B5BB1FA00E93941 /* TwoThumbSliderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F34C9D1B5BB1FA00E93941 /* TwoThumbSliderTest.m */; };
+		7C1EB8882405DC4EE0425D62 /* libPods-WikiaCodingTaskTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA79F8C2C85552835FB46DC /* libPods-WikiaCodingTaskTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		049F51DFB76080BA83200CEB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		56E5B9DF141825D8261E1FF4 /* Pods-WikiaCodingTaskTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WikiaCodingTaskTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WikiaCodingTaskTests/Pods-WikiaCodingTaskTests.release.xcconfig"; sourceTree = "<group>"; };
 		59839D641B5662B70070EA1A /* WikiaCodingTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WikiaCodingTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59839D681B5662B70070EA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59839D691B5662B70070EA1A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -44,7 +46,6 @@
 		59839D771B5662B70070EA1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		59839D7D1B5662B70070EA1A /* WikiaCodingTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WikiaCodingTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59839D821B5662B70070EA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		59839D831B5662B70070EA1A /* WikiaCodingTaskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WikiaCodingTaskTests.m; sourceTree = "<group>"; };
 		59839D961B566AC10070EA1A /* WMainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMainTabBarController.h; sourceTree = "<group>"; };
 		59839D971B566AC10070EA1A /* WMainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMainTabBarController.m; sourceTree = "<group>"; };
 		59839D991B566B0E0070EA1A /* WPopularWikisTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPopularWikisTableViewController.h; sourceTree = "<group>"; };
@@ -61,6 +62,9 @@
 		59839DAC1B57D5490070EA1A /* WTwoThumbSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTwoThumbSlider.m; sourceTree = "<group>"; };
 		59F34C981B5BA13800E93941 /* WSliderHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSliderHandle.h; sourceTree = "<group>"; };
 		59F34C991B5BA13800E93941 /* WSliderHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSliderHandle.m; sourceTree = "<group>"; };
+		59F34C9D1B5BB1FA00E93941 /* TwoThumbSliderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoThumbSliderTest.m; sourceTree = "<group>"; };
+		89F76EFC474F76DEFF72AB5D /* Pods-WikiaCodingTaskTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WikiaCodingTaskTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WikiaCodingTaskTests/Pods-WikiaCodingTaskTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9CA79F8C2C85552835FB46DC /* libPods-WikiaCodingTaskTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WikiaCodingTaskTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19A4686B4CAFC3394237C7D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D459EC55045FA452CF2CD0D2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C1EB8882405DC4EE0425D62 /* libPods-WikiaCodingTaskTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +138,7 @@
 		59839D801B5662B70070EA1A /* WikiaCodingTaskTests */ = {
 			isa = PBXGroup;
 			children = (
-				59839D831B5662B70070EA1A /* WikiaCodingTaskTests.m */,
+				59F34C9D1B5BB1FA00E93941 /* TwoThumbSliderTest.m */,
 				59839D811B5662B70070EA1A /* Supporting Files */,
 			);
 			path = WikiaCodingTaskTests;
@@ -203,6 +208,8 @@
 			children = (
 				D459EC55045FA452CF2CD0D2 /* Pods.debug.xcconfig */,
 				049F51DFB76080BA83200CEB /* Pods.release.xcconfig */,
+				89F76EFC474F76DEFF72AB5D /* Pods-WikiaCodingTaskTests.debug.xcconfig */,
+				56E5B9DF141825D8261E1FF4 /* Pods-WikiaCodingTaskTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -211,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				C19A4686B4CAFC3394237C7D /* libPods.a */,
+				9CA79F8C2C85552835FB46DC /* libPods-WikiaCodingTaskTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -241,9 +249,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59839D8A1B5662B70070EA1A /* Build configuration list for PBXNativeTarget "WikiaCodingTaskTests" */;
 			buildPhases = (
+				92B61718AD8F62C9ADF17C45 /* Check Pods Manifest.lock */,
 				59839D791B5662B70070EA1A /* Sources */,
 				59839D7A1B5662B70070EA1A /* Frameworks */,
 				59839D7B1B5662B70070EA1A /* Resources */,
+				8E2E3B0DB70868B1F5B82AAA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,6 +352,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		8E2E3B0DB70868B1F5B82AAA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WikiaCodingTaskTests/Pods-WikiaCodingTaskTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		92B61718AD8F62C9ADF17C45 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -366,7 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59839D841B5662B70070EA1A /* WikiaCodingTaskTests.m in Sources */,
+				59F34C9E1B5BB1FA00E93941 /* TwoThumbSliderTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +536,7 @@
 		};
 		59839D8B1B5662B70070EA1A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89F76EFC474F76DEFF72AB5D /* Pods-WikiaCodingTaskTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -515,6 +556,7 @@
 		};
 		59839D8C1B5662B70070EA1A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 56E5B9DF141825D8261E1FF4 /* Pods-WikiaCodingTaskTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
