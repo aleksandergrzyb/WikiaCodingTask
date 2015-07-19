@@ -19,6 +19,8 @@
 static NSString * const WMostPopularWikisCellIdentifier = @"MostPopularWikisCell";
 static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
 
+static int const WNumberOfRowsToRefresh = 3;
+
 @implementation WPopularWikisTableViewController
 
 - (void)viewDidLoad
@@ -93,7 +95,7 @@ static NSString * const WImageDownloadedNotificationName = @"ImageDownloaded";
 // Downloading more wikis when user gets to the bottom of table view.
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == self.wikis.count - 1) {
+    if (indexPath.row == self.wikis.count - WNumberOfRowsToRefresh) {
         if ([WAPIClient sharedAPIClient].currentBatch <= [WAPIClient sharedAPIClient].numberOfBatches) {
             [self fetchWikis];
         }
